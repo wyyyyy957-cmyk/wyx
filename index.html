@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极简动态时钟</title>
+    <style>
+        /* 1. 页面背景：深色渐变 */
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle, #2c3e50, #000000);
+            font-family: 'Helvetica Neue', sans-serif;
+            overflow: hidden;
+        }
+
+        /* 2. 时钟容器：毛玻璃质感 */
+        .clock-container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px 60px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        /* 3. 时间文本 */
+        #clock {
+            font-size: 80px;
+            font-weight: bold;
+            color: #00d2ff;
+            text-shadow: 0 0 20px #00d2ff;
+            letter-spacing: 5px;
+        }
+
+        /* 4. 日期文本 */
+        #date {
+            font-size: 20px;
+            color: white;
+            opacity: 0.6;
+            margin-top: 10px;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="clock-container">
+        <div id="clock">00:00:00</div>
+        <div id="date">LOADING...</div>
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            
+            // 获取时间
+            let h = now.getHours();
+            let m = now.getMinutes();
+            let s = now.getSeconds();
+            
+            // 补零操作：如果是个位数，前面加个 "0"
+            h = h < 10 ? "0" + h : h;
+            m = m < 10 ? "0" + m : m;
+            s = s < 10 ? "0" + s : s;
+
+            // 更新 HTML 内容
+            document.getElementById("clock").innerText = h + ":" + m + ":" + s;
+
+            // 获取日期
+            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            document.getElementById("date").innerText = now.toLocaleDateString('zh-CN', options);
+        }
+
+        // 每隔 1000 毫秒（1秒）调用一次 updateClock 函数
+        setInterval(updateClock, 1000);
+
+        // 页面加载时立即显示一次
+        updateClock();
+    </script>
+</body>
+</html>
